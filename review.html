@@ -1,0 +1,288 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reviews - GovHospitals</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <!-- Review Page CSS -->
+    <link rel="stylesheet" href="assets/css/pages/review.css">
+</head>
+<body data-page="review">
+    <!-- Header will be inserted here by JavaScript -->
+    <header id="header"></header>
+
+    <!-- Main Content -->
+    <div class="container py-4">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <!-- Header Section -->
+                <div class="text-center mb-5">
+                    <div class="mb-3">
+                        <i class="bi bi-chat-square-heart" style="font-size: 3rem; color: var(--primary-color);"></i>
+                    </div>
+                    <h1 class="fw-bold mb-2">Share Your Experience</h1>
+                    <p class="text-muted mb-0">Your feedback helps us improve our healthcare services</p>
+                    <p class="text-muted small">ملاحظاتك تساعدنا في تحسين خدماتنا الصحية</p>
+                </div>
+
+                <!-- Review Form Card -->
+                <div class="card shadow-lg border-0 mb-4">
+                    <div class="card-body p-4">
+                        <form id="reviewForm" novalidate>
+                            <!-- Service Type Selection -->
+                            <div class="mb-4">
+                                <label class="form-label fw-bold">
+                                    <i class="bi bi-hospital me-2"></i>Which service did you use?
+                                </label>
+                                <div class="row g-2">
+                                    <div class="col-md-4">
+                                        <input type="radio" class="btn-check" name="serviceType" id="emergency" value="emergency">
+                                        <label class="btn btn-outline-primary w-100" for="emergency">
+                                            <i class="bi bi-ambulance me-2"></i>Emergency
+                                        </label>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <input type="radio" class="btn-check" name="serviceType" id="appointment" value="appointment">
+                                        <label class="btn btn-outline-primary w-100" for="appointment">
+                                            <i class="bi bi-calendar-check me-2"></i>Appointment
+                                        </label>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <input type="radio" class="btn-check" name="serviceType" id="consultation" value="consultation">
+                                        <label class="btn btn-outline-primary w-100" for="consultation">
+                                            <i class="bi bi-chat-dots me-2"></i>Consultation
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="invalid-feedback"></div>
+                            </div>
+
+                            <!-- Hospital Selection -->
+                            <div class="mb-4">
+                                <label for="hospitalSelect" class="form-label fw-bold">
+                                    <i class="bi bi-building me-2"></i>Which hospital did you visit?
+                                </label>
+                                <select class="form-select form-select-lg" id="hospitalSelect" required>
+                                    <option value="">Select a hospital</option>
+                                    <option value="al3am">Al-3am Hospital</option>
+                                    <option value="elgeldia">El-Geldia Hospital</option>
+                                    <option value="elkebd">El-Kebd Hospital</option>
+                                    <option value="elramad">El-Ramad Hospital</option>
+                                    <option value="elhomiat">El-Homiat Hospital</option>
+                                    <option value="elsader">El-Sader Hospital</option>
+                                </select>
+                                <div class="invalid-feedback"></div>
+                            </div>
+
+                            <!-- Rating System -->
+                            <div class="mb-4">
+                                <label class="form-label fw-bold">
+                                    <i class="bi bi-star me-2"></i>Overall Rating
+                                </label>
+                                <div class="rating-container text-center py-3">
+                                    <div class="star-rating" data-rating="0">
+                                        <i class="bi bi-star rating-star" data-value="1"></i>
+                                        <i class="bi bi-star rating-star" data-value="2"></i>
+                                        <i class="bi bi-star rating-star" data-value="3"></i>
+                                        <i class="bi bi-star rating-star" data-value="4"></i>
+                                        <i class="bi bi-star rating-star" data-value="5"></i>
+                                    </div>
+                                    <div class="rating-text mt-2 fw-medium" id="ratingText">Click to rate</div>
+                                </div>
+                                <input type="hidden" id="rating" name="rating" required>
+                                <div class="invalid-feedback"></div>
+                            </div>
+
+                            <!-- Detailed Categories Rating -->
+                            <div class="mb-4">
+                                <label class="form-label fw-bold">Rate Specific Aspects</label>
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <div class="aspect-rating">
+                                            <label class="form-label small fw-medium">Staff Friendliness</label>
+                                            <div class="mini-rating" data-category="staff">
+                                                <i class="bi bi-star mini-star" data-value="1"></i>
+                                                <i class="bi bi-star mini-star" data-value="2"></i>
+                                                <i class="bi bi-star mini-star" data-value="3"></i>
+                                                <i class="bi bi-star mini-star" data-value="4"></i>
+                                                <i class="bi bi-star mini-star" data-value="5"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="aspect-rating">
+                                            <label class="form-label small fw-medium">Wait Time</label>
+                                            <div class="mini-rating" data-category="wait">
+                                                <i class="bi bi-star mini-star" data-value="1"></i>
+                                                <i class="bi bi-star mini-star" data-value="2"></i>
+                                                <i class="bi bi-star mini-star" data-value="3"></i>
+                                                <i class="bi bi-star mini-star" data-value="4"></i>
+                                                <i class="bi bi-star mini-star" data-value="5"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="aspect-rating">
+                                            <label class="form-label small fw-medium">Cleanliness</label>
+                                            <div class="mini-rating" data-category="clean">
+                                                <i class="bi bi-star mini-star" data-value="1"></i>
+                                                <i class="bi bi-star mini-star" data-value="2"></i>
+                                                <i class="bi bi-star mini-star" data-value="3"></i>
+                                                <i class="bi bi-star mini-star" data-value="4"></i>
+                                                <i class="bi bi-star mini-star" data-value="5"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="aspect-rating">
+                                            <label class="form-label small fw-medium">Facilities</label>
+                                            <div class="mini-rating" data-category="facilities">
+                                                <i class="bi bi-star mini-star" data-value="1"></i>
+                                                <i class="bi bi-star mini-star" data-value="2"></i>
+                                                <i class="bi bi-star mini-star" data-value="3"></i>
+                                                <i class="bi bi-star mini-star" data-value="4"></i>
+                                                <i class="bi bi-star mini-star" data-value="5"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Written Review -->
+                            <div class="mb-4">
+                                <label for="reviewText" class="form-label fw-bold">
+                                    <i class="bi bi-chat-left-text me-2"></i>Tell us about your experience
+                                </label>
+                                <textarea class="form-control form-control-lg" id="reviewText" rows="4" 
+                                         placeholder="Share your detailed feedback..." required></textarea>
+                                <div class="form-text">Minimum 10 characters required</div>
+                                <div class="invalid-feedback"></div>
+                            </div>
+
+                            <!-- Contact Information (Optional) -->
+                            <div class="mb-4">
+                                <label class="form-label fw-bold">Contact Information (Optional)</label>
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <input type="text" class="form-control" id="reviewerName" placeholder="Your name">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <input type="email" class="form-control" id="reviewerEmail" placeholder="Your email">
+                                    </div>
+                                </div>
+                                <div class="form-text">We may contact you for follow-up if you provide your contact information</div>
+                            </div>
+
+                            <!-- Submit Button -->
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-primary btn-lg px-5" id="submitReview">
+                                    <span class="btn-text">
+                                        <i class="bi bi-send me-2"></i>Submit Review
+                                    </span>
+                                    <span class="btn-loading d-none">
+                                        <span class="spinner-border spinner-border-sm me-2"></span>
+                                        Submitting...
+                                    </span>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Recent Reviews Section -->
+                <div class="card border-0 shadow-sm">
+                    <div class="card-header bg-light">
+                        <h5 class="mb-0">
+                            <i class="bi bi-chat-square-quote me-2"></i>Recent Reviews
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div id="recentReviews">
+                            <!-- Recent reviews will be loaded here by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer will be inserted here by JavaScript -->
+    <footer id="footer"></footer>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Import maps for module resolution -->
+    <script type="importmap">
+    {
+        "imports": {
+            "@/core/dom": "./core/dom.js",
+            "@/ui/header": "./components/common/header.js",
+            "@/ui/footer": "./components/common/footer.js",
+            "@/ui/theme": "./components/ui/theme.js",
+            "@/ui/loading": "./components/ui/loading.js",
+            "@/data/age-groups": "./data/age-groups.js"
+        }
+    }
+    </script>
+    
+    <!-- Load the header module -->
+    <script type="module">
+        import { createHeader } from './components/common/header.js';
+        import { createFooter } from './components/common/footer.js';
+        
+        // Initialize header and footer when DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            const headerContainer = document.getElementById('header');
+            if (headerContainer) {
+                createHeader(headerContainer, {
+                    title: 'GovHealthcare',
+                    logo: 'hospital',
+                    fixed: true,
+                    showThemeToggle: false,
+                    showLanguageToggle: true,
+                    onLanguageChange: (lang) => {
+                        document.documentElement.lang = lang;
+                        document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+                        localStorage.setItem('language', lang);
+                    }
+                });
+            }
+            
+            const footerContainer = document.getElementById('footer');
+            if (footerContainer) {
+                createFooter(footerContainer);
+            }
+            
+            // Initialize the rest of the app
+            if (typeof initApp === 'function') {
+                initApp();
+            }
+        });
+    </script>
+    
+    <!-- Our custom JavaScript -->
+    
+    
+    <!-- Base Template System -->
+<script type="module">
+    import { initBaseTemplate, getStandardImportMap } from './templates/base-template.js';
+    
+    const importMapScript = document.createElement('script');
+    importMapScript.type = 'importmap';
+    importMapScript.textContent = JSON.stringify(getStandardImportMap(), null, 4);
+    document.head.appendChild(importMapScript);
+    
+    initBaseTemplate({
+        title: 'GovHealthcare',
+        logo: 'hospital'
+    });
+</script>
+    <script src="pages/review.js"></script>
+</body>
+</html>
+

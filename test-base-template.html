@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Base Template Test</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+</head>
+<body data-page="test">
+    <div id="app">
+        <!-- Header will be inserted here by base template -->
+        <header id="header"></header>
+        
+        <!-- Main content -->
+        <main class="container py-5">
+            <div class="text-center">
+                <h1 class="display-4 mb-4">Base Template Test</h1>
+                <div class="alert alert-success">
+                    <h4 class="alert-heading">✅ Success!</h4>
+                    <p>If you can see the header and footer on this page, the base template is working correctly!</p>
+                </div>
+                <div class="row g-4 mt-4">
+                    <div class="col-md-4">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    <i class="bi bi-check-circle text-success me-2"></i>
+                                    Header Loading
+                                </h5>
+                                <p class="card-text">Header should appear at the top with navigation, theme toggle, and language toggle.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    <i class="bi bi-check-circle text-success me-2"></i>
+                                    Footer Loading
+                                </h5>
+                                <p class="card-text">Footer should appear at the bottom with links and contact information.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    <i class="bi bi-code-slash text-info me-2"></i>
+                                    Code Reduction
+                                </h5>
+                                <p class="card-text">This page uses only ~15 lines of initialization code instead of ~50!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-5">
+                    <h3>Test Navigation</h3>
+                    <div class="d-flex gap-2 justify-content-center">
+                        <a href="index.html" class="btn btn-primary">Home</a>
+                        <a href="about.html" class="btn btn-outline-primary">About</a>
+                        <a href="hospitals.html" class="btn btn-outline-primary">Hospitals</a>
+                        <a href="contact.html" class="btn btn-outline-primary">Contact</a>
+                    </div>
+                </div>
+            </div>
+        </main>
+        
+        <!-- Footer will be inserted here by base template -->
+        <footer id="footer"></footer>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Base Template Test - Only 10 lines of code needed! -->
+    <script type="module">
+        import { initBaseTemplate, getStandardImportMap } from './templates/base-template.js';
+        
+        // Add import map dynamically
+        const importMapScript = document.createElement('script');
+        importMapScript.type = 'importmap';
+        importMapScript.textContent = JSON.stringify(getStandardImportMap(), null, 4);
+        document.head.appendChild(importMapScript);
+        
+        // Initialize base template with test configuration
+        initBaseTemplate({
+            title: 'Base Template Test',
+            logo: 'code-slash',
+            onInitComplete: () => {
+                console.log('✅ Base template test completed successfully!');
+            }
+        });
+    </script>
+</body>
+</html>

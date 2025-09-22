@@ -1,0 +1,231 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - Government Portal</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <!-- Auth Forms CSS -->
+    <link rel="stylesheet" href="assets/css/pages/auth-forms.css">
+</head>
+<body data-page="signup">
+    <!-- Header will be inserted here by JavaScript -->
+    <header id="header"></header>
+
+    <main>
+        <div class="container-fluid min-vh-100 d-flex align-items-center py-4">
+            <div class="row w-100 justify-content-center">
+                <div class="col-md-8 col-lg-6 col-xl-5">
+                    <div class="signup-container">
+                        <div class="card shadow-lg border-0">
+                            <div class="card-body p-5">
+                                <!-- Logo and Title -->
+                                <div class="text-center mb-4">
+                                    <div class="auth-logo mb-3">
+                                        <i class="bi bi-hospital" style="font-size: 3rem; color: var(--primary-color);"></i>
+                                    </div>
+                                    <h2 class="fw-bold mb-2">Create Your Account</h2>
+                                    <p class="text-muted mb-0">Join us to access healthcare services</p>
+                                    <p class="text-muted small">انضم إلينا للوصول لخدمات الرعاية الصحية</p>
+                                </div>
+                                
+                                <form id="signupForm" novalidate>
+                                    <!-- Full Name Field -->
+                                    <div class="mb-3">
+                                        <label for="fullName" class="form-label fw-medium">
+                                            <i class="bi bi-person me-2"></i>Full Name
+                                        </label>
+                                        <input type="text" class="form-control form-control-lg" id="fullName" 
+                                               placeholder="Enter your full name" required>
+                                        <div class="invalid-feedback"></div>
+                                    </div>
+
+                                    <!-- Email Field -->
+                                    <div class="mb-3">
+                                        <label for="email" class="form-label fw-medium">
+                                            <i class="bi bi-envelope me-2"></i>Email Address
+                                        </label>
+                                        <input type="email" class="form-control form-control-lg" id="email" 
+                                               placeholder="Enter your email" required>
+                                        <div class="invalid-feedback"></div>
+                                    </div>
+                                    
+                                    <!-- Username Field -->
+                                    <div class="mb-3">
+                                        <label for="username" class="form-label fw-medium">
+                                            <i class="bi bi-at me-2"></i>Username
+                                        </label>
+                                        <input type="text" class="form-control form-control-lg" id="username" 
+                                               placeholder="Choose a username" required>
+                                        <div class="invalid-feedback"></div>
+                                        <div class="form-text">Username must be 3-20 characters, letters and numbers only</div>
+                                    </div>
+                                    
+                                    <!-- Password Field -->
+                                    <div class="mb-3">
+                                        <label for="password" class="form-label fw-medium">
+                                            <i class="bi bi-lock me-2"></i>Password
+                                        </label>
+                                        <div class="input-group">
+                                            <input type="password" class="form-control form-control-lg" id="password" 
+                                                   placeholder="Create a password" required>
+                                            <button class="btn btn-outline-secondary" type="button" id="togglePassword">
+                                                <i class="bi bi-eye"></i>
+                                            </button>
+                                        </div>
+                                        <div class="invalid-feedback"></div>
+                                        <!-- Password Strength Indicator -->
+                                        <div class="password-strength mt-2" id="passwordStrength" style="display: none;">
+                                            <div class="password-strength-bar">
+                                                <div class="password-strength-fill" id="passwordStrengthFill"></div>
+                                            </div>
+                                            <div class="password-strength-text" id="passwordStrengthText"></div>
+                                        </div>
+                                        <div class="form-text">Use 8+ characters with letters, numbers & symbols</div>
+                                    </div>
+                                    
+                                    <!-- Confirm Password Field -->
+                                    <div class="mb-4">
+                                        <label for="confirmPassword" class="form-label fw-medium">
+                                            <i class="bi bi-lock-fill me-2"></i>Confirm Password
+                                        </label>
+                                        <input type="password" class="form-control form-control-lg" id="confirmPassword" 
+                                               placeholder="Confirm your password" required>
+                                        <div class="invalid-feedback"></div>
+                                    </div>
+                                    
+                                    <!-- Terms Checkbox -->
+                                    <div class="mb-4">
+                                        <div class="form-check">
+                                            <input type="checkbox" class="form-check-input" id="terms" required>
+                                            <label class="form-check-label" for="terms">
+                                                I agree to the <a href="polices.html" class="text-decoration-none">Terms of Service</a> and 
+                                                <a href="polices.html" class="text-decoration-none">Privacy Policy</a>
+                                            </label>
+                                            <div class="invalid-feedback"></div>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Submit Button -->
+                                    <button type="submit" class="btn btn-primary btn-lg w-100 mb-3" id="signupBtn">
+                                        <span class="btn-text">
+                                            <i class="bi bi-person-plus me-2"></i>Create Account
+                                        </span>
+                                        <span class="btn-loading d-none">
+                                            <span class="spinner-border spinner-border-sm me-2" role="status"></span>
+                                            Creating account...
+                                        </span>
+                                    </button>
+                                </form>
+                                
+                                <!-- Divider -->
+                                <div class="text-center my-4">
+                                    <span class="text-muted small">or</span>
+                                </div>
+
+                                <!-- Social Signup Options -->
+                                <div class="d-grid gap-2 mb-4">
+                                    <button class="btn btn-outline-danger" type="button">
+                                        <i class="bi bi-google me-2"></i>Sign up with Google
+                                    </button>
+                                    <button class="btn btn-outline-primary" type="button">
+                                        <i class="bi bi-facebook me-2"></i>Sign up with Facebook
+                                    </button>
+                                </div>
+                                
+                                <!-- Login Link -->
+                                <div class="text-center">
+                                    <p class="mb-0 text-muted">
+                                        Already have an account? 
+                                        <a href="login.html" class="text-decoration-none fw-bold">Sign in</a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer will be inserted here by JavaScript -->
+    <footer id="footer"></footer>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Import maps for module resolution -->
+    <script type="importmap">
+    {
+        "imports": {
+            "@/core/dom": "./core/dom.js",
+            "@/ui/header": "./components/common/header.js",
+            "@/ui/footer": "./components/common/footer.js",
+            "@/ui/theme": "./components/ui/theme.js",
+            "@/ui/loading": "./components/ui/loading.js",
+            "@/data/age-groups": "./data/age-groups.js"
+        }
+    }
+    </script>
+    
+    <!-- Load the header module -->
+    <script type="module">
+        import { createHeader } from './components/common/header.js';
+        import { createFooter } from './components/common/footer.js';
+        
+        // Initialize header and footer when DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            const headerContainer = document.getElementById('header');
+            if (headerContainer) {
+                createHeader(headerContainer, {
+                    title: 'GovHealthcare',
+                    logo: 'hospital',
+                    fixed: true,
+                    showThemeToggle: false,
+                    showLanguageToggle: true,
+                    onLanguageChange: (lang) => {
+                        document.documentElement.lang = lang;
+                        document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+                        localStorage.setItem('language', lang);
+                    }
+                });
+            }
+            
+            const footerContainer = document.getElementById('footer');
+            if (footerContainer) {
+                createFooter(footerContainer);
+            }
+            
+            // Initialize the rest of the app
+            if (typeof initApp === 'function') {
+                initApp();
+            }
+        });
+    </script>
+    
+    <!-- Our custom JavaScript -->
+    
+    
+    <!-- Base Template System -->
+<script type="module">
+    import { initBaseTemplate, getStandardImportMap } from './templates/base-template.js';
+    
+    const importMapScript = document.createElement('script');
+    importMapScript.type = 'importmap';
+    importMapScript.textContent = JSON.stringify(getStandardImportMap(), null, 4);
+    document.head.appendChild(importMapScript);
+    
+    initBaseTemplate({
+        title: 'GovHealthcare',
+        logo: 'hospital'
+    });
+</script>
+    <script src="pages/auth-signup.js"></script>
+</body>
+</html>
+

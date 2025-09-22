@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="page-title">Medical Specialties - GovHealthcare</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <!-- Specialty Cards CSS -->
+    <link rel="stylesheet" href="assets/css/pages/specialty-cards.css">
+</head>
+<body data-page="specialty-dynamic">
+    <div id="app">
+        <!-- Header will be inserted here by JavaScript -->
+        <header id="header"></header>
+        
+        <!-- Main content -->
+        <main class="py-5">
+            <!-- Content will be inserted here -->
+        </main>
+        
+        <!-- Footer will be inserted here by JavaScript -->
+        <footer id="footer" class="bg-dark text-white py-4 mt-auto"></footer>
+    </div>
+
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Import maps for module resolution -->
+    <script type="importmap">
+    {
+        "imports": {
+            "@/core/dom": "./core/dom.js",
+            "@/ui/header": "./components/common/header.js",
+            "@/ui/footer": "./components/common/footer.js",
+            "@/ui/theme": "./components/ui/theme.js",
+            "@/ui/loading": "./components/ui/loading.js",
+            "@/data/age-groups": "./data/age-groups.js",
+            "@/data/hospitals": "./data/hospitals.js",
+            "@/data/specialties": "./data/specialties.js"
+        }
+    }
+    </script>
+    
+    <!-- Dynamic Specialty Page Logic -->
+    <script type="module">
+        import { createHeader } from './components/common/header.js';
+        import { createFooter } from './components/common/footer.js';
+        import { showLoading } from './components/ui/loading.js';
+        import { getHospitalBySlug } from './data/hospitals.js';
+        import { getAllSpecialties, getSpecialtiesByHospital, getSpecialtyBySlug } from './data/specialties.js';
+        
+        // Get URL parameters
+        function getUrlParameter(name) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(name);
+        }
+        
+        // Initialize the dynamic specialty page
+        async function initDynamicSpecialtyPage() {
+            try {
+                showLoading(true);
+                
+                // Get parameters from URL
+                const hospitalSlug = getUrlParameter('hospital');
+                const specialtySlug = getUrlParameter('type');
+                const showAll = getUrlParameter('all');
+                
+                let hospital = null;
+                let specialties = [];
+                let pageTitle = '';
+                
+                if (hospitalSlug) {
+                    // Show specialties for a specific hospital
+                    hospital = getHospitalBySlug(hospitalSlug);
+                    if (!hospital) {
+                        throw new Error(`Hospital not found: ${hospitalSlug}`);
+                    }
+                    
+                    specialties = getSpecialtiesByHospital(hospitalSlug);
+                    pageTitle = `${hospital.name} Specialties`;
+                    document.title = `${hospital.name} Specialties - GovHealthcare`;
+                    
+                } else if (specialtySlug) {
+                    // Show specific specialty details
+                    const specialty = getSpecialtyBySlug(specialtySlug);
+                    if (!specialty) {
+                        throw new Error(`Specialty not found: ${specialtySlug}`);
+                    }
+                    
+                    specialties = [specialty];
+                    pageTitle = specialty.name;
+                    document.title = `${specialty.name} - GovHealthcare`;
+                    
+                } else if (showAll) {
+                    // Show all specialties
+                    specialties = getAllSpecialties();
+                    pageTitle = 'All Medical Specialties';
+                    document.title = 'All Medical Specialties - GovHealthcare';
+                    
+                } else {
+                    // Default: show general specialties
+                    specialties = getAllSpecialties();
+                    pageTitle = 'Medical Specialties';
+                    document.title = 'Medical Specialties - GovHealthcare';
+                }
+                
+                // Initialize header and footer
+                const headerContainer = document.getElementById('header');
+                const footerContainer = document.getElementById('footer');
+                
+                if (headerContainer) {
+                    createHeader(headerContainer, {
+                        title: 'GovHealthcare',
+                        logo: 'hospital',
+                        fixed: true,
+                    showThemeToggle: false,
+                        showLanguageToggle: true,
+                        onLanguageChange: (lang) => {
+                            document.documentElement.lang = lang;
+                            document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+                            localStorage.setItem('language', lang);
+                        }
+                    });
+                }
+                
+                if (footerContainer) {
+                    createFooter(footerContainer);
+                }
+                
+                // Create main content
+                const main = document.querySelector('main');
+                main.innerHTML = createSpecialtyContent(pageTitle, specialties, hospital);
+                
+                // Add event listeners for specialty cards
+                addSpecialtyListeners(specialties, hospital);
+                
+                showLoading(false);
+                
+            } catch (error) {
+                console.error('Error loading specialty page:', error);
+                showLoading(false);
+                showErrorPage(error.message);
+            }
+        }
+        
+        // Create specialty content HTML
+        function createSpecialtyContent(title, specialties, hospital) {
+            const hospitalInfo = hospital ? `
+                <div class="text-center mb-4">
+                    <div class="d-flex align-items-center justify-content-center mb-2">
+                        <i class="bi bi-${hospital.icon} me-2" style="color: ${hospital.primaryColor}; font-size: 1.5rem;"></i>
+                        <span class="text-muted">${hospital.name}</span>
+                    </div>
+                </div>
+            ` : '';
+            
+            return `
+                <div class="container">
+                    ${hospitalInfo}
+                    <h1 class="text-center mb-5">${title} <span class="text-muted">التخصصات الطبية</span></h1>
+                    
+                    ${specialties.length === 0 ? `
+                        <div class="text-center py-5">
+                            <i class="bi bi-info-circle display-4 text-muted mb-3"></i>
+                            <h3>No Specialties Found</h3>
+                            <p class="text-muted">No specialties are available for the selected criteria.</p>
+                            <a href="hospitals.html" class="btn btn-primary">
+                                <i class="bi bi-arrow-left me-1"></i>
+                                Back to Hospitals
+                            </a>
+                        </div>
+                    ` : `
+                        <div class="row g-4" id="specialtiesGrid">
+                            ${createSpecialtyCards(specialties)}
+                        </div>
+                    `}
+                </div>
+            `;
+        }
+        
+        // Create specialty cards HTML
+        function createSpecialtyCards(specialties) {
+            return specialties.map((specialty, index) => `
+                <div class="col-md-6 col-lg-4">
+                    <div class="card specialty-card h-100 border-0 shadow-sm" 
+                         data-specialty-slug="${specialty.slug}" 
+                         style="cursor: pointer; animation-delay: ${index * 0.1}s;">
+                        <div class="card-body text-center p-4">
+                            <div class="mb-3">
+                                <i class="bi bi-${specialty.icon}" 
+                                   style="font-size: 3rem; color: ${specialty.color};"></i>
+                            </div>
+                            <h5 class="card-title mb-2">${specialty.name}</h5>
+                            <p class="text-muted small mb-3">${specialty.nameAr}</p>
+                            <p class="card-text small mb-3">
+                                ${specialty.description || 'Comprehensive care and treatment services.'}
+                            </p>
+                            <div class="mt-auto">
+                                <span class="btn btn-sm btn-outline-primary">
+                                    Book Appointment
+                                    <i class="bi bi-arrow-right ms-1"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        // Add event listeners for specialty cards
+        function addSpecialtyListeners(specialties, hospital) {
+            const specialtyCards = document.querySelectorAll('.specialty-card');
+            specialtyCards.forEach(card => {
+                card.addEventListener('click', () => {
+                    const specialtySlug = card.dataset.specialtySlug;
+                    const specialty = specialties.find(s => s.slug === specialtySlug);
+                    
+                    if (specialty) {
+                        let url = '';
+                        
+                        if (hospital) {
+                            // Navigate to hospital page with specialty parameter
+                            url = `hospital.html?name=${hospital.urlSlug}&specialty=${specialtySlug}`;
+                        } else {
+                            // Navigate to general booking with specialty
+                            url = `booking.html?specialty=${specialtySlug}`;
+                        }
+                        
+                        window.location.href = url;
+                    }
+                });
+                
+                // Add hover effects
+                card.addEventListener('mouseenter', () => {
+                    card.style.transform = 'translateY(-10px)';
+                });
+                card.addEventListener('mouseleave', () => {
+                    card.style.transform = 'translateY(0)';
+                });
+            });
+        }
+        
+        // Show error page
+        function showErrorPage(message) {
+            const app = document.getElementById('app');
+            app.innerHTML = `
+                <div class="container mt-5">
+                    <div class="row justify-content-center">
+                        <div class="col-md-8">
+                            <div class="alert alert-danger text-center">
+                                <h4 class="alert-heading">
+                                    <i class="bi bi-exclamation-triangle me-2"></i>
+                                    Specialty Not Found
+                                </h4>
+                                <p class="mb-3">${message}</p>
+                                <hr>
+                                <div class="mb-0">
+                                    <a href="hospitals.html" class="btn btn-primary me-2">
+                                        <i class="bi bi-arrow-left me-1"></i>
+                                        Back to Hospitals
+                                    </a>
+                                    <a href="specialty.html?all=true" class="btn btn-outline-primary me-2">
+                                        <i class="bi bi-grid me-1"></i>
+                                        All Specialties
+                                    </a>
+                                    <a href="index.html" class="btn btn-outline-primary">
+                                        <i class="bi bi-house me-1"></i>
+                                        Home
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+        
+        // Initialize when DOM is loaded
+        document.addEventListener('DOMContentLoaded', initDynamicSpecialtyPage);
+    </script>
+</body>
+</html>
