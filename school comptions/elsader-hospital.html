@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>El Sader Hospital</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        #app {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        .card {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1) !important;
+        }
+        /* Ensure footer stays at bottom */
+        footer {
+            margin-top: auto;
+        }
+    </style>
+</head>
+<body>
+    <!-- App container where content will be injected -->
+    <div id="app">
+        <!-- Header will be inserted here by JavaScript -->
+        <header id="header"></header>
+        
+        <!-- Main content will be inserted here -->
+        <main></main>
+        
+        <!-- Footer will be inserted here -->
+        <footer id="footer"></footer>
+    </div>
+
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Initialize the hospital page (module) -->
+    <script>
+        // Hospital configuration
+        window.hospitalConfig = {
+            name: 'El Sader Hospital',
+            nameAr: 'مستشفى الصدر',
+            description: 'Specialized Chest and Respiratory Care',
+            descriptionAr: 'رعاية متخصصة لأمراض الصدر والجهاز التنفسي',
+            primaryColor: '#2ecc71',
+            secondaryColor: '#58d68d',
+            accentColor: '#27ae60',
+            icon: 'lungs',
+            logo: 'bi-lungs',
+            phone: '+20 100 123 4569',
+            address: '789 Chest Ave, Cairo, Egypt'
+        };
+    </script>
+    <!-- Shared Header/Footer wrappers -->
+    <script src="js/header.js"></script>
+    <script src="js/footer.js"></script>
+    <!-- Global bootstrap (safe guards) -->
+    <script type="module" src="src/bootstrap.js"></script>
+    <!-- Page module initialization -->
+    <script type="module">
+      import { initHospitalPage } from './hospital-page.js';
+      import { showLoading } from './src/ui/loading.js';
+      document.addEventListener('DOMContentLoaded', () => {
+        showLoading(true);
+        initHospitalPage(window.hospitalConfig);
+      });
+    </script>
+</body>
+</html>

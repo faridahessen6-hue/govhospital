@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-en="Ask a Question - Hospital Services" data-ar="اسأل سؤالاً - خدمات المستشفى">Ask a Question - Hospital Services</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <style>
+        :root {
+            --primary-color: #003366;
+            --secondary-color: #e9ecef;
+        }
+        
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            background-color: #f8f9fa;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .chat-container {
+            max-width: 800px;
+            margin: 2rem auto;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .chat-header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 1rem;
+            text-align: center;
+            position: relative;
+        }
+        
+        .lang-switcher {
+            position: absolute;
+            top: 10px;
+            left: 15px;
+        }
+        
+        .chat-messages {
+            flex: 1;
+            padding: 1.5rem;
+            overflow-y: auto;
+            max-height: 60vh;
+        }
+        
+        .message {
+            margin-bottom: 1rem;
+            max-width: 80%;
+            line-height: 1.5;
+        }
+        
+        .bot-message {
+            align-self: flex-start;
+            background-color: var(--secondary-color);
+            border-radius: 15px 15px 15px 0;
+            padding: 0.75rem 1rem;
+        }
+        
+        .user-message {
+            align-self: flex-end;
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 15px 15px 0 15px;
+            padding: 0.75rem 1rem;
+        }
+        
+        .chat-input {
+            padding: 1rem;
+            border-top: 1px solid #dee2e6;
+            background-color: #f8f9fa;
+        }
+        
+        .options-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 10px;
+        }
+        
+        .options-container button {
+            white-space: nowrap;
+            text-align: left;
+            transition: all 0.2s;
+            border-radius: 20px;
+            padding: 0.25rem 0.75rem;
+        }
+        
+        .options-container button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .rtl {
+            direction: rtl;
+            text-align: right;
+        }
+        
+        .rtl .message {
+            margin-right: auto;
+            margin-left: 0;
+        }
+        
+        .rtl .user-message {
+            margin-left: auto;
+            margin-right: 0;
+        }
+        
+        .rtl .bot-message {
+            border-radius: 15px 15px 0 15px;
+        }
+        
+        .rtl .user-message {
+            border-radius: 15px 0 15px 15px;
+        }
+    </style>
+</head>
+<body data-page="ask">
+    <!-- Header will be inserted here by JavaScript -->
+    <header id="header"></header>
+
+    <main class="flex-grow-1 py-4">
+        <div class="container">
+            <div class="chat-container">
+                <div class="chat-header">
+                    <div class="lang-switcher">
+                        <button id="langToggle" class="btn btn-sm btn-outline-light">
+                            <span class="en">عربي</span>
+                            <span class="ar" style="display: none;">English</span>
+                        </button>
+                    </div>
+                    <h2 class="h5 mb-0" data-en="Hospital Support" data-ar="دعم المستشفى">
+                        <i class="bi bi-chat-dots me-2"></i>Hospital Support
+                    </h2>
+                    <p class="mb-0 small" data-en="Ask us anything about our services" 
+                       data-ar="اسألنا عن أي شيء بخصوص خدماتنا">
+                        Ask us anything about our services
+                    </p>
+                </div>
+                
+                <div class="chat-messages" id="chatMessages">
+                    <div class="message bot-message">
+                        Hello! I'm here to help you with any questions about our hospital services. How can I assist you today?
+                    </div>
+                    
+                    <div class="options-container" id="suggestions">
+                        <button class="btn btn-outline-primary btn-sm suggestion-btn">Hospital locations</button>
+                        <button class="btn btn-outline-primary btn-sm suggestion-btn">Working hours</button>
+                        <button class="btn btn-outline-primary btn-sm suggestion-btn">Emergency services</button>
+                        <button class="btn btn-outline-primary btn-sm suggestion-btn">Appointment booking</button>
+                    </div>
+                </div>
+                
+                <div class="chat-input">
+                    <form id="messageForm" class="d-flex gap-2">
+                        <input type="text" class="form-control" id="userInput" 
+                               data-placeholder-en="Type your question here..."
+                               data-placeholder-ar="اكتب سؤالك هنا..."
+                               placeholder="Type your question here..." required>
+                        <button type="submit" class="btn btn-primary" data-en="Send" data-ar="إرسال">
+                            <i class="bi bi-send"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer will be inserted here by JavaScript -->
+    <footer id="footer"></footer>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Our custom JavaScript -->
+    <script src="js/header.js"></script>
+    <script src="js/footer.js"></script>
+    <script type="module" src="src/bootstrap.js"></script>
+</body>
+</html>

@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>El Ramad Hospital</title>
+    
+    <!-- Base64 encoded favicon to avoid CSP issues -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMTAwIDEwMCI+PHBhdGggZmlsbD0iIzM0OThkYiIgZD0iTTUwIDIwQzMzLjUgMjAgMjAgMzMuNSAyMCA1MHMxMy41IDMwIDMwIDMwIDMwLTEzLjUgMzAtMzBTNjYuNSAyMCA1MCAyMHptMCA1NWMtMTMuOCAwLTI1LTExLjItMjUtMjVzMTEuMi0yNSAyNS0yNSAyNSAxMS4yIDI1IDI1LTExLjIgMjUtMjUgMjV6Ii8+PGNpcmNsZSBjeD0iNTAiIGN5PSI1MCIgcj0iMTAiIGZpbGw9IiMxZjk2OGQiLz48L3N2Zz4=">
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        #app {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        .card {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1) !important;
+        }
+        /* Ensure footer stays at bottom */
+        footer {
+            margin-top: auto;
+        }
+        #error-message {
+            display: none;
+            margin: 20px;
+            padding: 15px;
+            border-radius: 5px;
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+    </style>
+</head>
+<body>
+    <!-- Error message container -->
+    <div id="error-message"></div>
+
+    <!-- App container where content will be injected -->
+    <div id="app">
+        <!-- Header will be inserted here by JavaScript -->
+        <header id="header"></header>
+        
+        <!-- Main content will be inserted here -->
+        <main></main>
+        
+        <!-- Footer will be inserted here -->
+        <footer id="footer"></footer>
+    </div>
+
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Initialize the hospital page (module) -->
+    <script>
+        // Hospital configuration
+        window.hospitalConfig = {
+            name: 'El Ramad Hospital',
+            nameAr: 'مستشفى الرمد',
+            description: 'Specialized Eye Care Services',
+            descriptionAr: 'خدمات رعاية العيون المتخصصة',
+            primaryColor: '#3498db',
+            secondaryColor: '#5dade2',
+            accentColor: '#1f618d',
+            icon: 'eye',
+            logo: 'bi-eye',
+            phone: '+20 100 123 4568',
+            address: '456 Vision St, Cairo, Egypt'
+        };
+
+        // Show error message
+        function showError(message) {
+            console.error(message);
+            const errorEl = document.getElementById('error-message');
+            if (errorEl) {
+                errorEl.textContent = message;
+                errorEl.style.display = 'block';
+            }
+        }
+    </script>
+
+    <!-- Load scripts with error handling -->
+    <script>
+        // First, check if the browser supports modules
+        if (typeof window !== 'undefined' && 'noModule' in HTMLScriptElement.prototype) {
+            // Script loading helper
+            function loadScript(src, isModule = false) {
+                return new Promise((resolve, reject) => {
+                    const script = document.createElement('script');
+                    script.onload = resolve;
+                    script.onerror = () => reject(new Error(`Failed to load script: ${src}`));
+                    if (isModule) {
+                        script.type = 'module';
+                    }
+                    script.src = src;
+                    document.head.appendChild(script);
+                });
+            }
+
+            // Load scripts in sequence
+            async function loadScripts() {
+                try {
+                    // Load header and footer first
+                    await loadScript('js/header.js');
+                    await loadScript('js/footer.js');
+                    
+                    // Then load the bootstrap and initialize the page
+                    await loadScript('src/bootstrap.js', true);
+                    
+                    // Initialize the page
+                    const { initHospitalPage } = await import('./hospital-page.js');
+                    const { showLoading } = await import('./src/ui/loading.js');
+                    
+                    showLoading(true);
+                    initHospitalPage(window.hospitalConfig);
+                } catch (error) {
+                    showError(`Error loading page: ${error.message}`);
+                    console.error('Error details:', error);
+                }
+            }
+
+            // Start loading scripts when DOM is ready
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', loadScripts);
+            } else {
+                loadScripts();
+            }
+        } else {
+            showError('Your browser does not support JavaScript modules. Please use a modern browser.');
+        }
+    </script>
+</body>
+</html>

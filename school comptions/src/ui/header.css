@@ -1,0 +1,148 @@
+/* Header Component Styles */
+
+/* Base header styles */
+.header {
+    --header-bg: var(--bs-primary, #1a5f7a);
+    --header-text: #ffffff;
+    --header-hover: rgba(255, 255, 255, 0.1);
+    --header-active: var(--bs-primary, #1a5f7a);
+    
+    background-color: var(--header-bg);
+    color: var(--header-text);
+    transition: all 0.3s ease;
+    z-index: 1030;
+    width: 100%;
+}
+
+/* Transparent header variant */
+.header-transparent {
+    background-color: transparent !important;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+}
+
+/* Navbar styles */
+.header .navbar {
+    padding: 0.8rem 0;
+}
+
+.header .navbar-brand {
+    color: var(--header-text);
+    font-weight: 600;
+    font-size: 1.25rem;
+    display: flex;
+    align-items: center;
+    transition: opacity 0.2s ease;
+}
+
+.header .navbar-brand:hover {
+    opacity: 0.9;
+}
+
+.header .navbar-brand i {
+    font-size: 1.5rem;
+    margin-right: 0.5rem;
+}
+
+/* Nav links */
+.header .nav-link {
+    color: var(--header-text);
+    padding: 0.5rem 1rem;
+    margin: 0 0.125rem;
+    border-radius: 0.25rem;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+}
+
+.header .nav-link i {
+    margin-right: 0.25rem;
+}
+
+.header .nav-link:hover,
+.header .nav-link:focus {
+    background-color: var(--header-hover);
+    color: var(--header-text);
+}
+
+.header .nav-link.active {
+    background-color: var(--header-active);
+    color: white;
+    font-weight: 500;
+}
+
+/* Toggle buttons */
+.header [data-theme-toggle],
+.header [data-language-toggle] {
+    color: var(--header-text);
+    padding: 0.5rem;
+    margin-left: 0.25rem;
+    border-radius: 50%;
+    width: 2.5rem;
+    height: 2.5rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+.header [data-theme-toggle]:hover,
+.header [data-language-toggle]:hover {
+    background-color: var(--header-hover);
+}
+
+/* RTL support */
+[dir="rtl"] .header .navbar-brand i,
+[dir="rtl"] .header .nav-link i {
+    margin-right: 0;
+    margin-left: 0.5rem;
+}
+
+[dir="rtl"] .header .nav-link i {
+    margin-right: 0;
+    margin-left: 0.25rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 991.98px) {
+    .header .navbar-collapse {
+        padding: 1rem 0;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        margin-top: 0.5rem;
+    }
+    
+    .header .navbar-nav {
+        margin-bottom: 1rem;
+    }
+    
+    .header .d-flex.align-items-center {
+        padding-top: 1rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        margin-top: 1rem;
+    }
+    
+    .header [data-theme-toggle],
+    .header [data-language-toggle] {
+        margin: 0 0.5rem 0 0;
+    }
+}
+
+/* Dark theme adjustments */
+[data-theme="dark"] .header {
+    --header-bg: #1a1a1a;
+    --header-hover: rgba(255, 255, 255, 0.05);
+    --header-active: #2c3e50;
+}
+
+/* Scrolled state */
+.header.scrolled {
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.header-transparent.scrolled {
+    background-color: var(--header-bg) !important;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
